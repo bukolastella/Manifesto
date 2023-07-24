@@ -5,6 +5,8 @@ import LaptopImage from "../../images/laptop.jpg";
 import { gsap } from "gsap";
 import SplitType from "split-type";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import GsapEffect from "./GsapEffect";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
@@ -13,9 +15,8 @@ const Hero = () => {
   const h1Ref = useRef<HTMLDivElement>(null);
   const paraRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const imgRefContainer = useRef<HTMLImageElement>(null);
-  const paraTextRef = useRef<HTMLImageElement>(null);
-  const paraTextRefContainer = useRef<HTMLImageElement>(null);
+  const imgRefContainer = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -24,14 +25,10 @@ const Hero = () => {
         !h1Ref.current ||
         !paraRef.current ||
         !imgRef.current ||
-        !imgRefContainer.current ||
-        !paraTextRef.current
+        !imgRefContainer.current
       )
         return;
       const text = SplitType.create(paraRef.current);
-      const textPara = SplitType.create(paraTextRef.current, {
-        types: "lines",
-      });
 
       gsap
         .timeline()
@@ -41,38 +38,6 @@ const Hero = () => {
         .from(text.lines, { y: 100, stagger: 0.2 }, 0.3)
         .from(text.lines, { opacity: 0, stagger: 0.2 }, "-=80%")
         .from(imgRef.current, { opacity: 0, duration: 1 }, "-=20%");
-
-      const animation = gsap.to(imgRef.current, {
-        scaleX: 2,
-      });
-
-      const paraAnimation = gsap.to(textPara.lines, {
-        backgroundSize: "100%",
-        duration: 0.5,
-        stagger: 0.5,
-        ease: "power1.out",
-      });
-
-      ScrollTrigger.create({
-        trigger: imgRefContainer.current,
-        start: "120% 100%",
-        scrub: 0.5,
-        pin: true,
-        pinSpacing: true,
-        toggleActions: "restart reverse reverse reverse",
-        // markers: true,
-        animation,
-      });
-
-      ScrollTrigger.create({
-        trigger: paraTextRefContainer.current,
-        start: "top-=200 50%",
-        end: "bottom+=200 100%",
-        scrub: 0.5,
-        toggleActions: "restart reverse reverse reverse",
-        // markers: true,
-        animation: paraAnimation,
-      });
     }, container);
 
     return () => ctx.revert();
@@ -88,15 +53,15 @@ const Hero = () => {
         Experience the <br /> perfect blend of creativity <br /> and
         functionality
       </Para>
-      <ImageWrapper ref={imgRefContainer}>
+      <GsapEffect targetRef={imgRef} effect={"enlarge"}>
         <Image src={LaptopImage} ref={imgRef} />
-      </ImageWrapper>
-      <ParaTextWrapper ref={paraTextRefContainer}>
-        <ParaText ref={paraTextRef}>
+      </GsapEffect>
+      <GsapEffect targetRef={boxRef} effect={"text-reveal"}>
+        <ParaText ref={boxRef}>
           Stand out from the crowd and make a statement with our sleek and
           stylish portfolio template that speaks volumes about your creativity.
         </ParaText>
-      </ParaTextWrapper>
+      </GsapEffect>
     </Wrapper>
   );
 };
@@ -140,9 +105,6 @@ const Image = styled.img`
   object-fit: cover;
   margin-bottom: 20px;
 `;
-
-const ImageWrapper = styled.div``;
-const ParaTextWrapper = styled.div``;
 
 const ParaText = styled.span`
   font-size: 3.7rem;
