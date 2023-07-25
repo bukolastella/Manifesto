@@ -9,22 +9,61 @@ import React, {
 import SplitType from "split-type";
 
 gsap.registerEffect({
+  name: "opacity-text-reveal",
+  defaults: {
+    duration: 0.5,
+    ease: "power1.out",
+    stagger: 0.5,
+    start: "top 80%",
+    end: "bottom 25%",
+    markers: false,
+  },
+  effect(targets: any, config: GSAPTweenVars) {
+    const textPara = SplitType.create(targets, {
+      types: "words",
+    });
+    return gsap.to(textPara.words, {
+      color: "#777",
+      duration: config.duration,
+      stagger: config.stagger,
+      ease: config.ease,
+      scrollTrigger: {
+        trigger: targets,
+        scrub: true,
+        start: config.start,
+        end: config.end,
+        markers: config.markers,
+      },
+    });
+  },
+});
+
+gsap.registerEffect({
   name: "text-reveal",
-  effect(targets: any) {
+  defaults: {
+    duration: 0.5,
+    ease: "power1.out",
+    stagger: 0.5,
+    start: "top 80%",
+    end: "bottom 25%",
+    markers: false,
+  },
+  effect(targets: any, config: GSAPTweenVars) {
     const textPara = SplitType.create(targets, {
       types: "chars",
     });
     return gsap.to(textPara.chars, {
       backgroundSize: "100%",
-      duration: 0.5,
-      stagger: 0.5,
-      ease: "power1.out",
+      duration: config.duration,
+      stagger: config.stagger,
+      ease: config.ease,
+
       scrollTrigger: {
         trigger: targets,
         scrub: true,
-        start: "top 80%",
-        end: "bottom 25%",
-        // markers: true,
+        start: config.start,
+        end: config.end,
+        markers: config.markers,
       },
     });
   },
@@ -52,7 +91,7 @@ interface Props {
   children: JSX.Element;
   effect: string;
   targetRef: any;
-  vars?: any;
+  vars?: GSAPTweenVars;
 }
 
 const GsapEffect: FC<Props> = forwardRef(

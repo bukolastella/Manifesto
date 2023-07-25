@@ -17,6 +17,9 @@ const Hero = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const imgRefContainer = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
+  const tempText1 = useRef<HTMLDivElement>(null);
+  const tempText2 = useRef<HTMLDivElement>(null);
+  const tempText3 = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -56,12 +59,60 @@ const Hero = () => {
       <GsapEffect targetRef={imgRef} effect={"enlarge"}>
         <Image src={LaptopImage} ref={imgRef} />
       </GsapEffect>
-      <GsapEffect targetRef={boxRef} effect={"text-reveal"}>
+      <GsapEffect
+        targetRef={boxRef}
+        effect={"text-reveal"}
+        vars={{
+          end: "bottom 75%",
+        }}
+      >
         <ParaText ref={boxRef}>
           Stand out from the crowd and make a statement with our sleek and
           stylish portfolio template that speaks volumes about your creativity.
         </ParaText>
       </GsapEffect>
+      <TemplateWrapper>
+        <GsapEffect
+          targetRef={tempText1}
+          effect={"text-reveal"}
+          vars={{
+            ease: "linear",
+            duration: 0.1,
+            stagger: 0.1,
+            end: "bottom 70%",
+          }}
+        >
+          <TemplateText ref={tempText1}>2023</TemplateText>
+        </GsapEffect>
+        <GsapEffect
+          targetRef={tempText2}
+          effect={"text-reveal"}
+          vars={{
+            ease: "linear",
+            duration: 0.1,
+            stagger: 0.1,
+            end: "bottom 70%",
+          }}
+        >
+          <TemplateText ref={tempText2}>Portfolio Website</TemplateText>
+        </GsapEffect>
+        <GsapEffect
+          targetRef={tempText3}
+          effect={"opacity-text-reveal"}
+          vars={{
+            ease: "linear",
+            duration: 0.1,
+            stagger: 0.1,
+          }}
+        >
+          <TemplateText3 ref={tempText3}>
+            Our template pages are a playground for creativity, where we
+            leverage an assorment of shortcodes to build capitivating
+            content.This enables us to demonstrate the limitless potential and
+            showcase the impressive features of our template.
+          </TemplateText3>
+        </GsapEffect>
+      </TemplateWrapper>
     </Wrapper>
   );
 };
@@ -119,4 +170,31 @@ const ParaText = styled.span`
     -webkit-background-clip: text;
     -webkit-text-fill-color: rgba(255, 255, 255, 0.1);
   }
+`;
+
+const TemplateWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 5rem;
+`;
+
+const TemplateText = styled.div`
+  /* color: red; */
+  width: 100%;
+
+  & > div {
+    background-size: 0%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(90deg, white, white);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const TemplateText3 = styled.div`
+  width: 100%;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 1.3rem;
 `;
