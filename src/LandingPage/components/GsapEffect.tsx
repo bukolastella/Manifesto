@@ -71,17 +71,45 @@ gsap.registerEffect({
 
 gsap.registerEffect({
   name: "enlarge",
-  effect(targets: any) {
+  defaults: {
+    markers: false,
+    start: "120% 100%",
+    end: "bottom top",
+  },
+  effect(targets: any, config: GSAPTweenVars) {
     return gsap.to(targets, {
       scaleX: 2,
       scrollTrigger: {
         trigger: targets,
-        start: "120% 100%",
-        scrub: 0.5,
+        start: config.start,
+        end: config.end,
+        scrub: true,
         pin: true,
         pinSpacing: true,
         // toggleActions: "restart reverse reverse reverse",
-        // markers: true,
+        markers: config.markers,
+      },
+    });
+  },
+});
+
+gsap.registerEffect({
+  name: "grow",
+  defaults: {
+    markers: false,
+    start: "top top",
+    end: "bottom bottom",
+  },
+  effect(targets: any, config: GSAPTweenVars) {
+    return gsap.to(targets, {
+      width: "100%",
+      y: 0,
+      scrollTrigger: {
+        trigger: targets,
+        start: config.start,
+        end: config.end,
+        // toggleActions: "restart reverse reverse reverse",
+        markers: config.markers,
       },
     });
   },

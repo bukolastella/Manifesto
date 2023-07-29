@@ -6,6 +6,9 @@ import { gsap } from "gsap";
 import SplitType from "split-type";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GsapEffect from "./GsapEffect";
+import Services from "./Services";
+import Articles from "./Articles";
+import Slider from "./Slider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,6 +116,11 @@ const Hero = () => {
           </TemplateText3>
         </GsapEffect>
       </TemplateWrapper>
+      <Services />
+      <Articles />
+      <Articles />
+      <Articles />
+      <Slider />
     </Wrapper>
   );
 };
@@ -180,7 +188,6 @@ const TemplateWrapper = styled.div`
 `;
 
 const TemplateText = styled.div`
-  /* color: red; */
   width: 100%;
 
   & > div {
